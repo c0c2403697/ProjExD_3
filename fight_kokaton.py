@@ -139,6 +139,15 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+# class Human:
+#     def __init__(self, sintyou, taijuu):
+#         self.sintyou = sintyou
+#         self.taijuu = taijuu
+#         taijuu = 55
+
+# hito1 = Human(160,60)
+# hito1.sintyou
+
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
@@ -158,22 +167,30 @@ def main():
                 beam = Beam(bird)            
         screen.blit(bg_img, [0, 0])
         
-        if bird.rct.colliderect(bomb.rct):
-            # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
-            bird.change_img(8, screen)
-            pg.display.update()
-            time.sleep(1)
-            return
-
+        if bomb is not None:
+             if bird.rct.colliderect(bomb.rct):
+                 # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
+                 bird.change_img(8, screen)
+                 pg.display.update()
+                 time.sleep(1)
+                 return
+         
+        if beam is not None:
+             if bomb is not None:
+                 if beam.rct.colliderect(bomb.rct):  # ビームと爆弾の衝突判定
+                     beam = None  # ビームを消す
+                     bomb = None  # 爆弾を消す
+ 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         if beam is not None:
-            beam.update(screen)   
-        bomb.update(screen)
+            beam.update(screen) 
+        if bomb is not None:
+            bomb.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
+ 
 
 if __name__ == "__main__":
     pg.init()
