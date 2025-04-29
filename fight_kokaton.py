@@ -65,6 +65,7 @@ class Bird:
         self.img = pg.transform.rotozoom(pg.image.load(f"fig/{num}.png"), 0, 0.9)
         screen.blit(self.img, self.rct)
 
+
     def update(self, key_lst: list[bool], screen: pg.Surface):
         """
         押下キーに応じてこうかとんを移動させる
@@ -174,19 +175,21 @@ def main():
                  pg.display.update()
                  time.sleep(1)
                  return
-         
+        key_lst = pg.key.get_pressed()
+        bird.update(key_lst, screen)
         if beam is not None:
              if bomb is not None:
                  if beam.rct.colliderect(bomb.rct):  # ビームと爆弾の衝突判定
                      beam = None  # ビームを消す
                      bomb = None  # 爆弾を消す
+                     bird.change_img(6,screen)
  
-        key_lst = pg.key.get_pressed()
-        bird.update(key_lst, screen)
+        
         if beam is not None:
             beam.update(screen) 
         if bomb is not None:
             bomb.update(screen)
+            
         pg.display.update()
         tmr += 1
         clock.tick(50)
