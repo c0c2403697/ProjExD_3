@@ -140,16 +140,16 @@ class Bomb:
             self.vy *= -1
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
-    class Score:
-        def __init__(self):
-            self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
-            self.color=(0, 0, 255)
-            self.score = 0
-            self.img = self.fonto.render(f"スコア{self.score}", 0, self.color)
-            self.basyo =(100,HEIGHT-50)
-        def update(self, screen: pg.Surface):
-            self.img = self.fonto.render(f"スコア{self.score}", 0, self.color)
-            screen.blit(self.img, self.basyo)
+class Score:
+    def __init__(self):
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.color=(0, 0, 255)
+        self.score = 0
+        self.img = self.fonto.render(f"スコア{self.score}", 0, self.color)
+        self.basyo =(100,HEIGHT-50)
+    def update(self, screen: pg.Surface):
+        self.img = self.fonto.render(f"スコア{self.score}", 0, self.color)
+        screen.blit(self.img, self.basyo)
 
 
             
@@ -198,8 +198,8 @@ def main():
         for j, bomb in enumerate(bombs):
              if beam is not None:
                  if beam.rct.colliderect(bomb.rct):  # ビームと爆弾の衝突判定
-                     beam = None  # ビームを消す
-                     bomb = None  # 爆弾を消す
+                     beam= None  # ビームを消す
+                     bombs[j] = None  # 爆弾を消す
                      
                      bird.change_img(6,screen)
                      score.score+=1
