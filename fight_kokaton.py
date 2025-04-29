@@ -83,7 +83,7 @@ class Bird:
         if not (sum_mv[0] == 0 and sum_mv[1] == 0):
             self.img = __class__.imgs[tuple(sum_mv)]
         screen.blit(self.img, self.rct)
-
+        
 
 class Beam:# ビームクラス:
     # """
@@ -172,24 +172,28 @@ def main():
              if bird.rct.colliderect(bomb.rct):
                  # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
                  bird.change_img(8, screen)
+                 fonto = pg.font.Font(None, 80)
+                 txt = fonto.render("Game Over", True, (255, 0, 0))
+                 screen.blit(txt, [WIDTH//2-150, HEIGHT//2])
                  pg.display.update()
-                 time.sleep(1)
+                 time.sleep(5)
                  return
-        key_lst = pg.key.get_pressed()
-        bird.update(key_lst, screen)
+        
         if beam is not None:
              if bomb is not None:
                  if beam.rct.colliderect(bomb.rct):  # ビームと爆弾の衝突判定
                      beam = None  # ビームを消す
                      bomb = None  # 爆弾を消す
                      bird.change_img(6,screen)
+                     
  
         
         if beam is not None:
             beam.update(screen) 
         if bomb is not None:
             bomb.update(screen)
-            
+        key_lst = pg.key.get_pressed()
+        bird.update(key_lst, screen)    
         pg.display.update()
         tmr += 1
         clock.tick(50)
